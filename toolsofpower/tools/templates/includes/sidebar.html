@@ -1,0 +1,37 @@
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+      <div class="logo">
+        <a target="_blank" rel="noopener noreferrer" 
+           href="https://appseed.us/admin-dashboards/django-dashboard-material" class="simple-text logo-normal">
+          Tools of Power
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item {% if 'index' in segment %} active {% endif %}">
+            <a class="nav-link" href="/">
+              <i class="material-icons">search</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+            <a class="nav-link" href="/page-user.html">
+              <i class="material-icons">post_add</i>
+              <p>Add tool</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+            <a class="nav-link" href="/page-user.html">
+              <i class="material-icons">code</i>
+              <p>Parser</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="" >
+              <i class="material-icons">directions_run</i>
+              <p>Logout</p>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
