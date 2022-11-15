@@ -32,12 +32,13 @@ class Tool(models.Model):
     name = models.CharField(max_length=150)
     description = models.TextField(blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    source =models.ForeignKey(Source, on_delete=models.PROTECT, blank=True)
+    source =models.ForeignKey(Source, on_delete=models.PROTECT, blank=True, null=True)
     used = models.BooleanField(default=False)
     rating = models.FloatField(default=0, validators=[MaxValueValidator(10), MinValueValidator(0)])
-    platform = models.ForeignKey(Platform, on_delete=models.PROTECT, blank=True)
-    language = models.ForeignKey(Language, on_delete=models.PROTECT, blank=True)
-    related = models.ManyToManyField('self', null=True, blank=True)
+    platform = models.ForeignKey(Platform, on_delete=models.PROTECT, blank=True, null=True)
+    language = models.ForeignKey(Language, on_delete=models.PROTECT, blank=True, null=True)
+    related = models.ManyToManyField('self', blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
