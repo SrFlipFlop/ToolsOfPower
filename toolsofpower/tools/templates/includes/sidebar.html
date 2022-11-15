@@ -8,19 +8,19 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item {% if 'index' in segment %} active {% endif %}">
-            <a class="nav-link" href="/">
+            <a class="nav-link" href="{% url 'index' %}">
               <i class="material-icons">search</i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
-            <a class="nav-link" href="/page-user.html">
+          <li class="nav-item {% if 'add' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'add' %}">
               <i class="material-icons">post_add</i>
               <p>Add tool</p>
             </a>
           </li>
-          <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
-            <a class="nav-link" href="/page-user.html">
+          <li class="nav-item {% if 'parser' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'parser' %}">
               <i class="material-icons">code</i>
               <p>Parser</p>
             </a>
