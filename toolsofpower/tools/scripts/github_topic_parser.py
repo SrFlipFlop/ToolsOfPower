@@ -4,6 +4,8 @@ from random import randint
 from requests import get
 from bs4 import BeautifulSoup
 
+from tools.models import Tool
+
 def has_pagination(html):
     #if html.find('form', class_='ajax-pagination-form js-ajax-pagination'):
     if html.find('input', {'name':'page'}):
@@ -32,12 +34,11 @@ def get_articles(html):
     return articles
 
 #TODO: recursive func
-def get_topics():
-    page = 1
+def get_topics(page, max):
     html = request(f'https://github.com/topics/pentest?page={page}')
     articles = get_articles(html)
     
-    while has_pagination(html):
+    while has_pagination(html) and page < max:
         try:
             page += 1
             html = request(f'https://github.com/topics/pentest?page={page}')
@@ -48,8 +49,26 @@ def get_topics():
             break
     return articles
 
-def run():
-    topics = get_topics()
-    print(f'[+] Total tools found - {len(topics)}')
-    with open('/tmp/example.json', 'w') as f:
-        dump(topics, f)
+def run(*args):    
+    start_page = 1
+    max_page = 100
+    out_file = None
+
+    splited = args[0].split(' ')
+    if '-p' in splited:
+        start_page = int(splited[splited.index('-p')+1])
+    if '-m' in splited:
+        max_page = int(splited[splited.index('-m')+1])
+    if '-f' in splited:
+        out_file = splited[splited.index('-f')+1]
+
+    topics = get_topics(start_page, max_page)
+
+    if out_file:
+        print(f'[+] Total tools found - {len(topics)}')
+        with open(out_file, 'w') as f:
+            dump(topics, f)
+    else:
+        for tool in topics:
+            t = Tool(name=tool['name'], description=tool['description'])
+            t.save()
