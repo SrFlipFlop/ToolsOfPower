@@ -49,6 +49,15 @@ def get_topics(page, max):
             break
     return articles
 
+def get_topics_recursive(page, max, articles=[]):
+    html = request(f'https://github.com/topics/pentest?page={page}')
+    if not has_pagination(html) or page > max:
+        return articles
+    articles += get_articles(html)
+    sleep(randint(1,5))
+    get_topics_recursive(page+1, max, articles)
+    return articles
+
 def run(*args):    
     start_page = 1
     max_page = 100
@@ -62,7 +71,8 @@ def run(*args):
     if '-f' in splited:
         out_file = splited[splited.index('-f')+1]
 
-    topics = get_topics(start_page, max_page)
+    #topics = get_topics(start_page, max_page)
+    topics = get_topics_recursive(start_page, max_page)
 
     if out_file:
         print(f'[+] Total tools found - {len(topics)}')
@@ -70,5 +80,6 @@ def run(*args):
             dump(topics, f)
     else:
         for tool in topics:
-            t = Tool(name=tool['name'], description=tool['description'])
-            t.save()
+            if not Tool.objects.get(name=tool['name']):
+                t = Tool(name=tool['name'], description=tool['description'])
+                t.save()
