@@ -2,7 +2,9 @@
 
 {% block title %} Dashboard {% endblock %} 
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+{% endblock stylesheets %}
 
 {% block content %}
     <div class="row">
@@ -59,37 +61,37 @@
             <h4 class="card-title">Tools</h4>
           </div>
           <div class="card-body table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover" id="tools-table">
               <thead class="text-warning">
                 <th>Name</th>
                 <th>Tags</th>
                 <th>Description</th>
-		        <th>Related</th>
-       		    <th>Rating</th>
-		        <th>Used</th>
-		        <th>Source</th>
-		        <th>Language</th>
-		        <th>Platform</th>
+                <th>Related</th>
+                <th>Rating</th>
+                <th>Used</th>
+                <th>Source</th>
+                <th>Language</th>
+                <th>Platform</th>
               </thead>
               <tbody>
                 {% for tool in tools %}
                 <tr>
-                  <td>{{tool.name}}</td>
-		          <td>
-		          {% for tag in tool.tags.all %}
-      		  	    {{tag.name}}
-		          {% endfor %}
-		          </td>
-                  <td>{{tool.description}}</td>
+                  <td><a href="{% url 'tool' tool.id %}">{{tool.name}}</a></td>
                   <td>
-		          {% for rel in tool.related.all %}
-        		  	{{rel.name}}
-		          {% endfor %}
-		          </td>
-        		  <td>{{tool.rating}}</td>
-        		  <td>{{tool.used}}</td>
-        		  <td>{{tool.source}}</td>
-        		  <td>{{tool.language}}</td>
+                  {% for tag in tool.tags.all %}
+                      {{tag.name}}
+                  {% endfor %}
+                  </td>
+                      <td>{{tool.description}}</td>
+                      <td>
+                  {% for rel in tool.related.all %}
+                    {{rel.name}}
+                  {% endfor %}
+                  </td>
+                  <td>{{tool.rating}}</td>
+                  <td>{{tool.used}}</td>
+                  <td>{{tool.source}}</td>
+                  <td>{{tool.language}}</td>
                   <td>{{tool.platform}}</td>
                 </tr>
                 {% endfor %}
@@ -104,10 +106,10 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
   <script>
     $(document).ready(function() {
-      
+      $('#tools-table').DataTable();
     });
   </script>
 
